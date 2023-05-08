@@ -4,7 +4,15 @@
 # Найдите доверительный интервал для математического ожидания с надежностью 0.95.
 
 import numpy as np
-
-iq = 131, 125, 115, 122, 131, 115, 107, 99, 125, 111
+import scipy.stats as stats
+iq = [131, 125, 115, 122, 131, 115, 107, 99, 125, 111]
 p = 0.95
 alpha = 1 - p
+
+M = np.mean(iq)
+n = len(iq)
+t = stats.t.ppf(0.975, n - 1)
+D = np.var(iq, ddof=1)
+a = M - t*np.sqrt(D)/np.sqrt(n)
+b = M + t*np.sqrt(D)/np.sqrt(n)
+print(f'Доверительный интервал = [{a:.3f}, {b:.3f}]')

@@ -7,5 +7,30 @@
 # Найдите коэффициент корреляции Пирсона с помощью ковариации и среднеквадратичных отклонений двух признаков,
 # а затем с использованием функций из библиотек numpy и pandas.
 
-zp = [35, 45, 190, 200, 40, 70, 54, 150, 120, 110]
-ks = [401, 574, 874, 919, 459, 739, 653, 902, 746, 832]
+import numpy as np
+import pandas as pd
+zp = np.array([35, 45, 190, 200, 40, 70, 54, 150, 120, 110])
+ks = np.array([401, 574, 874, 919, 459, 739, 653, 902, 746, 832])
+
+# Ковариация
+cov_1 = np.cov(zp, ks, ddof=0)  #смещенная
+print(f'Ковариация = {cov_1}')
+cov_2 = np.mean(zp*ks)-np.mean(zp)*np.mean(ks)  #смещенная
+print(f'Ковариация = {cov_2:.2f}')
+
+# Коэффициент корреляции Пирсона
+
+corr_1 = cov_2/(np.std(zp)*np.std(ks))  #смещенная
+print(f'Коэффициент корреляции Пирсона = {corr_1:.2f}')
+corr_2 = cov_2/(np.std(zp, ddof=0)*np.std(ks,ddof=0))   #смещенная
+print(f'Коэффициент корреляции Пирсона = {corr_2:.2f}')
+
+# Numpy
+
+corr_3 = np.corrcoef(zp,ks)
+print(f'Коэффициент корреляции Пирсона = {corr_3}(Numpy)')
+
+# Pandas
+
+corr_pd = pd.Series(zp).corr(pd.Series(ks), method='pearson')
+print(f'Коэффициент корреляции Пирсона = {corr_pd} (Pandas)')
